@@ -34,5 +34,12 @@ module.exports = {
         }
         const token = signToken(user);
         res.json({ token, user });
+    },
+    async follow({ body }, res) {
+      const user = await User.findOneAndUpdate(
+        { _id: body.userId },
+        { $addToSet: { followers: body.followerId } },
+        { new: true, runValidators: true }
+      );
     }
 }
